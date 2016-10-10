@@ -1,0 +1,69 @@
+.no-user-select {
+    /* Cross Platform solution to remove user select highlight */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.user-select {
+    /* Cross Platform solution to add user select highlight */
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+html, body
+{
+	margin:0;
+	height:100%;
+}
+
+.demo-menu {
+	width:100%;
+	height: 10%;
+	
+	display: table;
+	
+	color: white;
+	background-color: #757575;
+}
+
+.demo-menu > div:nth-child(1) {
+	width:50%;
+	height:100%;
+	
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
+
+
+
+.flexible-menu {	
+	height:90%;
+	
+	/* Setting how children will be arranged */
+	display: -webkit-flex;
+    display: flex;
+	/* Horizontal alignment */
+	-webkit-justify-content: center;
+    justify-content: center;
+	/* Vertical alignment */
+	-webkit-align-items: center;
+    align-items: center;
+}
+
+.flexible-menu > div {
+	width:50%;
+	height:70%;
+	background-color:#e3e3e3;
+}
+
