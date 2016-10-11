@@ -43,6 +43,15 @@ html, body
 	vertical-align: middle;
 }
 
+.demo-menu > div:nth-child(2), .demo-menu > div:nth-child(3) {
+	width:25%;
+	height:100%;
+	
+	text-align: center;
+	display: table-cell;
+	vertical-align: top;
+}
+
 
 
 
