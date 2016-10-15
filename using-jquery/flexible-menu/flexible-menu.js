@@ -21,7 +21,6 @@ function whichTransitionEvent(){
         }
     }
 }
-
 //Getting the current transition animation event name
 transitionEvent = whichTransitionEvent();
 
@@ -32,27 +31,15 @@ $(document).ready(function()
 {
 	//console.log(transitionEvent);
 	
+	console.log(getMenuAvailableHeight());
+	console.log($(".row-header").css("height"));
+	console.log($(".row-content").css("height"));
+	
+	console.log(getRowHeight());
+	console.log(getMaxNumberOfRows());
+	
 	$(".row-option:first").click();
-	$(".column-option:first").click();
-
 });
-
-$(".column-option").on("click", function()
-{
-	//unchecking all radio buttons
-	$(".column-option").each(function( index ) 
-	{
-		//console.log( index + ": " + $( this ).val() );
-		$(this).prop('checked', false); 
-	});
-	$(this).prop('checked', true); //checking the radio button the user chose
-	
-	//Cheking which case was chosen
-	verifyOption($(this).val());	
-	
-	//console.log($(this).val());
-});
-
 
 $(".row-option").on("click", function()
 {
@@ -62,40 +49,55 @@ $(".row-option").on("click", function()
 		//console.log( index + ": " + $( this ).val() );
 		$(this).prop('checked', false); 
 	});
-	$(this).prop('checked', true); //checking the radio button the user chose
+	//checking the radio button the user chose
+	$(this).prop('checked', true); 
 	
-	//Cheking which case was chosen
-	verifyOption($(this).val());	
+	//Set number of rows according to chosen case
+	setRows($(this).val());	
 	
 	//console.log($(this).val());
 });
 
 
-function verifyOption(radioOption) 
+function setRows(numRows) 
 {
-	switch(radioOption)
+	switch(numRows)
 	{
-		case "1row":
+		case "1":
 			console.log("set 1 row");
 			break;
-		case "2rows":
+		case "2":
 			console.log("set 2 rows");
 			break;
-		case "3rows":
+		case "3":
 			console.log("set 3 rows");
-			break;
-		case "1column":
-			console.log("set 1 column");
-			break;
-		case "2columns":
-			console.log("set 2 columns");
-			break;
-		case "3columns":
-			console.log("set 3 columns");
 			break;
 	}
 }
 
+
+function getMenuAvailableHeight()
+{
+	return parseInt($(".flexible-menu").css("height"));
+}
+
+function getRowHeight()
+{
+	var headerHeight = parseInt($(".row-header").css("height"));
+	var contentHeight = parseInt($(".row-content").css("height"));
+	var rowHeight = headerHeight + contentHeight;
+	
+	return rowHeight;
+}
+
+function getMaxNumberOfRows()
+{
+	var availableHeight = getMenuAvailableHeight();
+	var rowHeight = getRowHeight();
+	var maxNumber = Math.round(availableHeight/rowHeight);
+	
+	return maxNumber;
+}
 
 function getWindowWidth()
 {

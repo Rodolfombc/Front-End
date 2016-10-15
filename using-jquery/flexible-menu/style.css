@@ -18,7 +18,7 @@
     user-select: text;
 }
 
-html, body
+html, body, .demo-container
 {
 	margin:0;
 	height:100%;
@@ -34,7 +34,7 @@ html, body
 	background-color: #757575;
 }
 
-.demo-menu > div:nth-child(1) {
+.demo-menu > div:nth-child(n) {
 	width:50%;
 	height:100%;
 	
@@ -43,20 +43,13 @@ html, body
 	vertical-align: middle;
 }
 
-.demo-menu > div:nth-child(2), .demo-menu > div:nth-child(3) {
-	width:25%;
-	height:100%;
-	
-	text-align: center;
-	display: table-cell;
-	vertical-align: top;
+.demo-menu > div:nth-child(2) > p{
+	margin-bottom:5px;
 }
 
 
 
-
-
-.flexible-menu {	
+.flexible-menu-container {	
 	height:90%;
 	
 	/* Setting how children will be arranged */
@@ -70,9 +63,29 @@ html, body
     align-items: center;
 }
 
-.flexible-menu > div {
+.flexible-menu {
 	width:50%;
-	height:70%;
+	height:80%;
 	background-color:#e3e3e3;
 }
 
+.menu-row{
+	width:100%;
+	height:100%;
+}
+
+.row-header{
+	width:100%;
+	height:50px;
+	line-height:50px;
+	
+	background-color:#2f4f4f;
+	color:white;
+	text-align: center;
+}
+
+.row-content{
+	width:100%;
+	height:200px;
+	background-color:#aaaaaa;
+}
