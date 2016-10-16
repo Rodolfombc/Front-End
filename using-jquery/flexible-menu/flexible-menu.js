@@ -1,4 +1,11 @@
 
+//Selectors
+var rowHeaderSelector = ".row-header";
+var rowContentSelector = ".row-content";
+var flexibleMenuSelector = ".flexible-menu";
+
+var rowOptionSelector = ".row-option";
+
 var transitionEvent;
 
 //
@@ -31,20 +38,13 @@ $(document).ready(function()
 {
 	//console.log(transitionEvent);
 	
-	console.log(getMenuAvailableHeight());
-	console.log($(".row-header").css("height"));
-	console.log($(".row-content").css("height"));
-	
-	console.log(getRowHeight());
-	console.log(getMaxNumberOfRows());
-	
 	$(".row-option:first").click();
 });
 
-$(".row-option").on("click", function()
+$(rowOptionSelector).on("click", function()
 {
 	//unchecking all radio buttons
-	$(".row-option").each(function( index ) 
+	$(rowOptionSelector).each(function( index ) 
 	{
 		//console.log( index + ": " + $( this ).val() );
 		$(this).prop('checked', false); 
@@ -53,43 +53,109 @@ $(".row-option").on("click", function()
 	$(this).prop('checked', true); 
 	
 	//Set number of rows according to chosen case
-	setRows($(this).val());	
+	setRows(parseInt($(this).val()));	
 	
 	//console.log($(this).val());
 });
 
 
 function setRows(numRows) 
-{
-	switch(numRows)
-	{
-		case "1":
-			console.log("set 1 row");
-			break;
-		case "2":
-			console.log("set 2 rows");
-			break;
-		case "3":
-			console.log("set 3 rows");
-			break;
+{	
+	//Removing all children (rows) from flexible-menu
+	$(flexibleMenuSelector).empty();
+	
+	var totalUsedHeight = 0;
+	for(var i = 0; i < numRows; i++)
+	{		
+		if(numRows>1)
+		{
+			//The last row we apply a different height for the content section
+			//to fill the rest of the menu available height
+			if(i>numRows-2)
+			{
+				//console.log("last row");
+				totalUsedHeight += getRowHeaderHeight();
+				
+				var fillUpHeight = getMenuAvailableHeight() - totalUsedHeight;
+				
+				var htmlRow = '<div class="menu-row">'+
+							'<div class="row-header">Row '+(i+1)+'</div>'+
+							'<div class="row-content" style="height:'+fillUpHeight+'px"></div>'+
+							'</div>';
+				
+				$(flexibleMenuSelector).append(htmlRow);
+			}
+			else
+			{
+				var htmlRow = '<div class="menu-row">'+
+							'<div class="row-header">Row '+(i+1)+'</div>'+
+							'<div class="row-content"></div>'+
+							'</div>';
+							
+				$(flexibleMenuSelector).append(htmlRow);
+				
+				totalUsedHeight += getRowHeight();
+			}
+		}
+		//The case where the only row need to have its content fill up all of the available height
+		else
+		{
+			totalUsedHeight += getRowHeaderHeight();
+				
+			var fillUpHeight = getMenuAvailableHeight() - totalUsedHeight;
+			
+			var htmlRow = '<div class="menu-row">'+
+						'<div class="row-header">Row '+(i+1)+'</div>'+
+						'<div class="row-content" style="height:'+fillUpHeight+'px"></div>'+
+						'</div>';
+			
+			$(flexibleMenuSelector).append(htmlRow);
+		}
 	}
+	
+	
 }
 
-
+/*
+ * Get flexible-menu height. (flexible-menu height is based on browser height)
+ */
 function getMenuAvailableHeight()
 {
-	return parseInt($(".flexible-menu").css("height"));
+	return parseInt($(flexibleMenuSelector).css("height"));
 }
 
+/*
+ * Get row header height
+ */
+function getRowHeaderHeight()
+{	
+	return 50;
+}
+
+/*
+ * Get row content height
+ */
+function getRowContentHeight()
+{	
+	return 200;
+}
+
+/*
+ * Get row height. (A row has a header section and a content section)
+ */
 function getRowHeight()
 {
-	var headerHeight = parseInt($(".row-header").css("height"));
-	var contentHeight = parseInt($(".row-content").css("height"));
+	var headerHeight = getRowHeaderHeight();
+	var contentHeight = getRowContentHeight();
 	var rowHeight = headerHeight + contentHeight;
 	
 	return rowHeight;
 }
 
+/*
+ * Get the maximum number of rows that can fit into flexible-menu
+ * according to its height
+ */
 function getMaxNumberOfRows()
 {
 	var availableHeight = getMenuAvailableHeight();
