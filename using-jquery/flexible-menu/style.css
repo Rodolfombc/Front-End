@@ -43,11 +43,13 @@ html, body, .demo-container
 	vertical-align: middle;
 }
 
-.demo-menu > div:nth-child(2) > p{
+.options > p{
 	margin-bottom:5px;
 }
 
-
+.options > input{
+	cursor:pointer;
+}
 
 .flexible-menu-container {	
 	height:90%;
@@ -81,6 +83,8 @@ html, body, .demo-container
 	background-color:#2f4f4f;
 	color:white;
 	text-align: center;
+	
+	cursor:pointer;
 }
 
 .row-content{

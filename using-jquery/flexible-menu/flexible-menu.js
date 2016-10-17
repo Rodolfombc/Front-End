@@ -3,8 +3,9 @@
 var rowHeaderSelector = ".row-header";
 var rowContentSelector = ".row-content";
 var flexibleMenuSelector = ".flexible-menu";
-
 var rowOptionSelector = ".row-option";
+var optionsSelector = ".options";
+
 
 var transitionEvent;
 
@@ -38,12 +39,15 @@ $(document).ready(function()
 {
 	//console.log(transitionEvent);
 	
+	setOptions();
+	
 	$(".row-option:first").click();
 });
 
-$(rowOptionSelector).on("click", function()
-{
-	//unchecking all radio buttons
+
+$("body").on("click", rowOptionSelector, function() {
+	
+    //unchecking all radio buttons
 	$(rowOptionSelector).each(function( index ) 
 	{
 		//console.log( index + ": " + $( this ).val() );
@@ -58,7 +62,24 @@ $(rowOptionSelector).on("click", function()
 	//console.log($(this).val());
 });
 
+/*
+ * Create the radio buttons options containing all possible number of rows to add to the flexible-menu
+ */
+function setOptions()
+{
+	var numOptions = getMaxNumberOfRows();
+	
+	for(var i = 0; i < numOptions; i++)
+	{		
+		var htmlOption = '<input type="radio" class="row-option" value="'+(i+1)+'">'+(i+1);
+					
+		$(optionsSelector).append(htmlOption);
+	}
+}
 
+/*
+ * Add numRows rows to the flexible-menu. 
+ */
 function setRows(numRows) 
 {	
 	//Removing all children (rows) from flexible-menu
