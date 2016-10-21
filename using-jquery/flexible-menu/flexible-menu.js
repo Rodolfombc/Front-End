@@ -1,5 +1,6 @@
 
 //Selectors
+var rowSelector = ".menu-row";
 var rowHeaderSelector = ".row-header";
 var rowContentSelector = ".row-content";
 var flexibleMenuSelector = ".flexible-menu";
@@ -40,27 +41,47 @@ $(document).ready(function()
 	//console.log(transitionEvent);
 	
 	setOptions();
-	
-	$(".row-option:first").click();
+	$(rowOptionSelector+":first").click();
 });
 
 
+/*
+ * Detect when a menu's button is clicked
+ */
 $("body").on("click", rowOptionSelector, function() {
 	
-    //unchecking all radio buttons
+	//console.log($(this)[0].disabled);
+	
 	$(rowOptionSelector).each(function( index ) 
-	{
-		//console.log( index + ": " + $( this ).val() );
+	{		
+		//unchecking all radio buttons
 		$(this).prop('checked', false); 
+		//Enabling all readio buttons
+		$(this)[0].disabled = false;
 	});
 	//checking the radio button the user chose
 	$(this).prop('checked', true); 
+	//Disabling the button the user chose
+	$(this)[0].disabled = true;
 	
 	//Set number of rows according to chosen case
-	setRows(parseInt($(this).val()));	
-	
-	//console.log($(this).val());
+	setRows(parseInt($(this).val()));
 });
+
+
+/*
+ * Detect when a row header is clicked
+ */
+$("body").on("click", rowHeaderSelector, function() {	
+	
+	//Accessing the row header respective row content
+	var contentObj = $($(this).parent().children()[1]);
+	//console.log(contentObj.css("height"));
+	//console.log($(this).parent().children()[1]);
+	
+	reorganizeRows(contentObj);
+});
+
 
 /*
  * Create the radio buttons options containing all possible number of rows to add to the flexible-menu
@@ -110,7 +131,7 @@ function setRows(numRows)
 			{
 				var htmlRow = '<div class="menu-row">'+
 							'<div class="row-header">Row '+(i+1)+'</div>'+
-							'<div class="row-content"></div>'+
+							'<div class="row-content" style="height:'+getRowContentHeight()+'px"></div>'+
 							'</div>';
 							
 				$(flexibleMenuSelector).append(htmlRow);
@@ -132,9 +153,125 @@ function setRows(numRows)
 			
 			$(flexibleMenuSelector).append(htmlRow);
 		}
-	}
+	}	
+}
+
+/*
+ * Reorganize the rows heights according to hidden/shown contents
+ */
+function reorganizeRows(contentObj)
+{
+	//console.log($(flexibleMenuSelector).children().length);
+	//console.log(contentObj[0]===$(rowContentSelector+":last")[0]);
 	
-	
+	var totalUsedHeight = 0;
+	var fillUpHeight = 0;
+	var numRows = $(rowSelector).length;
+	$(rowSelector).each(function()
+	{
+		var $this = $(this);
+		
+		if(numRows > 1)
+		{
+			//Checking if the content to be hidden/shown is in the last row
+			if(contentObj[0]===$(rowContentSelector+":last")[0])
+			{
+				//Checking if we will hide or show the content
+				if(parseInt(contentObj.css("height")) > 0)
+				{	
+					//Hide the content
+					contentObj.animate({
+						height: '0px'
+					});
+				}
+				else
+				{	
+					totalUsedHeight = (numRows-1)*getRowHeight()+getRowHeaderHeight();
+					fillUpHeight = getMenuAvailableHeight() - totalUsedHeight;
+					
+					console.log(fillUpHeight);
+				
+					//Show the respective content
+					contentObj.animate({
+						height: fillUpHeight+'px'
+					});
+				}
+			}
+			else
+			{				
+				//console.log($this.children()[1]);
+				//console.log($this.children()[1]===contentObj[0]);
+				//console.log(numRows);
+		
+				//The last row have to fill up all of the available height
+				if($this.index() > numRows-2)
+				{
+					//console.log("last row");
+					
+					totalUsedHeight += getRowHeaderHeight();
+					
+					var fillUpHeight = getMenuAvailableHeight() - totalUsedHeight;
+					
+					$(rowContentSelector+":last").animate({
+						height: fillUpHeight+'px'
+					});
+				}
+				else
+				{									
+					if($this.children()[1]===contentObj[0])
+					{
+						//Checking if we will hide or show the content
+						if(parseInt(contentObj.css("height")) > 0)
+						{	
+							totalUsedHeight += getRowHeaderHeight();
+							
+							//Hide the content
+							contentObj.animate({
+								height: '0px'
+							});
+						}
+						else
+						{	
+							totalUsedHeight += getRowHeight();
+						
+							//Show the respective content
+							contentObj.animate({
+								height: getRowContentHeight()+'px'
+							});
+						}
+					}
+					else
+					{
+						totalUsedHeight += getRowHeight();
+					}
+				}
+			}
+		}
+		//The case where the content have to fill up all of the available height
+		//because it is the only row shown
+		else
+		{
+			//Checking if we will hide or show the content
+			if(parseInt(contentObj.css("height")) > 0)
+			{	
+				//Hide the content
+				contentObj.animate({
+					height: '0px'
+				});
+			}
+			else
+			{	
+				totalUsedHeight += getRowHeaderHeight();
+				fillUpHeight = getMenuAvailableHeight() - totalUsedHeight;
+			
+				//Show the respective content
+				contentObj.animate({
+					height: fillUpHeight+'px'
+				});
+				
+			}
+		}
+	});
 }
 
 /*
@@ -158,7 +295,7 @@ function getRowHeaderHeight()
  */
 function getRowContentHeight()
 {	
-	return 200;
+	return 100;
 }
 
 /*
@@ -184,14 +321,4 @@ function getMaxNumberOfRows()
 	var maxNumber = Math.round(availableHeight/rowHeight);
 	
 	return maxNumber;
-}
-
-function getWindowWidth()
-{
-	return Math.max(document.documentElement.clientWidth, window.innerWidth, window.outerHeight || 0);
-}
-
-function getWindowHeight()
-{
-	return Math.max(document.documentElement.clientHeight, window.innerHeight, window.outerHeight || 0);
 }
