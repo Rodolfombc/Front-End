@@ -90,4 +90,10 @@ html, body, .demo-container
 .row-content{
 	width:100%;
 	background-color:#aaaaaa;
+	
+	 -webkit-transition: height 0.5s;  /* Safari */
+    -moz-transition:     height 0.5s; 
+    -o-transition:       height 0.5s; 
+    -ms-transition:      height 0.5s; 
+    transition:          height 0.5s; 
 }
