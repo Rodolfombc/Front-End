@@ -90,6 +90,8 @@ html, body, .demo-container
 .row-content{
 	width:100%;
 	background-color:#aaaaaa;
+	overflow-y:auto;
+
 	
 	 -webkit-transition: height 0.5s;  /* Safari */
     -moz-transition:     height 0.5s; 

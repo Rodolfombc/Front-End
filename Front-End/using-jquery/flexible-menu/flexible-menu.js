@@ -7,6 +7,16 @@ var flexibleMenuSelector = ".flexible-menu";
 var rowOptionSelector = ".row-option";
 var optionsSelector = ".options";
 
+//Setting the text inside each content
+var contentText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."+ 
+			" Vestibulum pulvinar, quam et scelerisque suscipit, diam risus rhoncus lectus, eget lobortis nisi quam a sem."+
+			" Vestibulum malesuada diam semper dolor rhoncus suscipit. Integer at quam a risus tristique accumsan sed ut neque."+
+			" Nullam eleifend ultrices quam, in dictum enim interdum vel. Aliquam tempus sapien metus, id ultricies leo commodo in."+
+			" Etiam porta finibus eros ut tristique. Suspendisse rhoncus enim a eros gravida ultrices."+
+			" Pellentesque tristique odio nulla, non interdum nisl tempor sit amet. Morbi vel scelerisque tellus, ac gravida urna."+ 
+			" Donec faucibus maximus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."+ 
+			" Etiam mattis justo sapien, a lacinia arcu porta nec. Aenean sagittis pulvinar dui a lobortis.";
+
 var transitionEndEvent;
 
 var clickEnabled = true;
@@ -171,6 +181,9 @@ function setRows(numRows)
 			
 			$(flexibleMenuSelector).append(htmlRow);
 		}
+				
+		$(rowContentSelector)[i].innerHTML = contentText;
+		//console.log($(rowContentSelector)[i].innerHTML);
 	}	
 }
 
