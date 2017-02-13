@@ -1,9 +1,22 @@
+<!DOCTYPE html>
 <html>
-    <script src="jscolor.min.js"></script>
-    <script src="canvas-paint.js"></script>
-    <body style="margin:0px">
-        <div id="canvasPaint" style="width:100%;height:100%;">
-            <input type="button" class="jscolor {onFineChange:'canvasPaint.setBrushColor(this)'}" style="position:absolute;top:17%;left:47%;width:100px;height:30px;background:black;">
-        </div>
+    <head>
+        <meta charset="utf-8">
+        <!-- ==================================================================================== -->
+                                <!--  Loading css files  -->
+        <!-- ==================================================================================== -->
+        <link href="style.css" rel="stylesheet" type="text/css">
+
+        <!-- ==================================================================================== -->
+                                <!--  Loading jquery file   -->
+        <!-- ==================================================================================== -->
+    		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <title>Canvas Paint</title>
+    </head>
+    <body>
+        <div id="canvasPaint"></div>
     </body>
-    </html>
+
+    <script src="canvas-paint.js"></script>
+</html>
