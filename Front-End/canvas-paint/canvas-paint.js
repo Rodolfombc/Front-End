@@ -74,15 +74,6 @@ function CanvasPaint() {
     }
 
     /**
-     * Define the color of the brush
-     * @param {jsColor} colorPicker - Colorpicker from jscolor library (http://jscolor.com/)
-     */
-    function setBrushColor(colorPicker)
-    {
-        brushColor = colorPicker.toHEXString();
-    }
-
-    /**
      * Defines the new width and new height of the canvas
      * @param {Number} w - New width to be set for the canvas
      * @param {Number} h - New height to be set for the canvas
@@ -184,31 +175,49 @@ function CanvasPaint() {
         //Button to minimize menu
         var minimizeMenuButton = document.createElement("DIV");
         minimizeMenuButton.className = "maximizedMenuButton";
-        minimizeMenuButton.innerHTML = "Min";
+        minimizeMenuButton.style.position = "absolute";
+        minimizeMenuButton.innerHTML = "Hide";
         menu.appendChild(minimizeMenuButton);
         addEvent(minimizeMenuButton, "mousedown", minimizeMenu);
 
         //Button responsible for setting the color of the brush
-        var colorPickerMenuButton = document.createElement("DIV");
+        var colorPickerMenuButton = document.createElement("INPUT");
+        colorPickerMenuButton.setAttribute("type", "color");
         colorPickerMenuButton.className = "maximizedMenuButton";
+        colorPickerMenuButton.style.position = "absolute";
+        colorPickerMenuButton.style.left = "25%";
+        menu.appendChild(colorPickerMenuButton);
+        addEvent(colorPickerMenuButton, "input", setBrushColor);
     }
 
+    /**
+     * Maximizes menu (showing menu options to the user)
+     * @param {MouseEvent} event - event of type MouseEvent
+     */
     function maximizeMenu(event)
     {
         clearMenuDOM();
-
         menu.className = "menu menuMaximized";
-
         createMaximizedMenu();
     }
 
+    /**
+     * Minimizes menu (hiding menu options to the user)
+     * @param {MouseEvent} event - event of type MouseEvent
+     */
     function minimizeMenu(event)
     {
         clearMenuDOM();
-
         menu.className = "menu menuMinimized";
-
         createMinimizedMenu();
+    }
+
+    /**
+     * Define the color of the brush
+     */
+    function setBrushColor()
+    {
+        brushColor = this.value;
     }
 
 
