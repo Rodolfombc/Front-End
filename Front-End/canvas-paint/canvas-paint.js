@@ -181,13 +181,29 @@ function CanvasPaint() {
         addEvent(minimizeMenuButton, "mousedown", minimizeMenu);
 
         //Button responsible for setting the color of the brush
-        var colorPickerMenuButton = document.createElement("INPUT");
-        colorPickerMenuButton.setAttribute("type", "color");
+        var colorPickerMenuButton = document.createElement("DIV");
         colorPickerMenuButton.className = "maximizedMenuButton";
         colorPickerMenuButton.style.position = "absolute";
         colorPickerMenuButton.style.left = "25%";
+        var colorPickerButton = document.createElement("INPUT");
+        colorPickerButton.setAttribute("type", "color");
+        colorPickerMenuButton.appendChild(colorPickerButton);
         menu.appendChild(colorPickerMenuButton);
-        addEvent(colorPickerMenuButton, "input", setBrushColor);
+        addEvent(colorPickerButton, "input", setBrushColor);
+
+        //Button responsible for setting the size of the brush
+        var brushSizeMenuButton = document.createElement("DIV");
+        brushSizeMenuButton.className = "maximizedMenuButton";
+        brushSizeMenuButton.style.position = "absolute";
+        brushSizeMenuButton.style.left = "50%";
+        var brushSizeButton = document.createElement("INPUT");
+        brushSizeButton.setAttribute("type", "number");
+        brushSizeButton.setAttribute("min", "1");
+        brushSizeButton.setAttribute("max", "20");
+        brushSizeButton.setAttribute("value", brushLineWidth);
+        brushSizeMenuButton.appendChild(brushSizeButton);
+        menu.appendChild(brushSizeMenuButton);
+        addEvent(brushSizeButton, "input", setBrushSize);
     }
 
     /**
@@ -218,6 +234,14 @@ function CanvasPaint() {
     function setBrushColor()
     {
         brushColor = this.value;
+    }
+
+    /**
+     * Define the size of the brush
+     */
+    function setBrushSize()
+    {
+        brushLineWidth = this.value;
     }
 
 
