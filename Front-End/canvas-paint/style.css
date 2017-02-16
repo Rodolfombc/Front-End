@@ -2,6 +2,7 @@ html, body
 {
   	margin:0;
   	height:100%;
+    overflow:auto;
 
     /* Cross Platform solution to remove user select highlight */
     -webkit-touch-callout: none;
@@ -12,15 +13,16 @@ html, body
     user-select: none;
 }
 
-input {
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box‌​-sizing:border-box;
+#canvasPaint {
     width:100%;
     height:100%;
+    overflow:hidden;
 }
 
-#canvasPaint {
+#canvasPaint input {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
     width:100%;
     height:100%;
 }
