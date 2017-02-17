@@ -16,16 +16,19 @@ function CanvasPaint() {
 
     function init()
     {
-        //Getting the available width and height of the parent div to fit the canvas element into it
+        //Element which will hold the canvas and its menu
         var canvasParent = document.getElementById('canvasPaint');
-        var canvasWidth = canvasParent.getBoundingClientRect().width;
-        var canvasHeight = canvasParent.getBoundingClientRect().height;
 
-        //Creating, configuring and adding the canvas element to the DOM
+        //Menu element
+        menu = document.createElement("DIV");
+        menu.className = "menu";
+        canvasParent.appendChild(menu);
+
+        //Creating and adding the canvas element to the DOM
         canvas = document.createElement("CANVAS");
-        setCanvasDimensions(canvasWidth,canvasHeight);
-        canvasContext = canvas.getContext("2d");
         canvasParent.appendChild(canvas);
+        //Setting canvas context
+        updateCanvasContext();
 
     //***************************************************************************//
     //                ADDING MOUSE DETECTION EVENTS FOR THE CANVAS
@@ -40,6 +43,7 @@ function CanvasPaint() {
     //***************************************************************************//
         window.onresize = function(event)
         {
+            updateCanvasContext();
             // //Saving current canvas drawings
             // var oldImageData = canvasContext.getImageData(0, 0, canvasWidth, canvasHeight);
             //
@@ -62,28 +66,8 @@ function CanvasPaint() {
             // canvasContext.putImageData(oldImageData,0,0);
         };
 
-        //Button that shows/hides the menu options
-        menu = document.createElement("DIV");
-        menu.className = "menu menuMinimized";
-        menu.style.position = "absolute";
-        menu.style.left = "10px";
-        menu.style.top = "10px";
-        canvasParent.appendChild(menu);
-
-        createMinimizedMenu();
+        //createMinimizedMenu();
     }
-
-    /**
-     * Defines the new width and new height of the canvas
-     * @param {Number} w - New width to be set for the canvas
-     * @param {Number} h - New height to be set for the canvas
-     */
-    function setCanvasDimensions(w,h)
-    {
-        canvas.setAttribute('width', w);
-        canvas.setAttribute('height', h);
-    }
-
 
     function draw()
     {
@@ -105,6 +89,28 @@ function CanvasPaint() {
         if (m) {
             canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
         }
+    }
+
+    /**
+     * Updates the context of the canvas (needed when the canvas is resized)
+     */
+    function updateCanvasContext()
+    {
+        var canvasStyle = window.getComputedStyle(canvas);
+        setCanvasDimensions(canvasStyle.getPropertyValue("width"),
+                            canvasStyle.getPropertyValue("height"));
+        canvasContext = canvas.getContext("2d");
+    }
+
+    /**
+     * Defines the new width and new height of the canvas
+     * @param {Number} w - New width to be set for the canvas
+     * @param {Number} h - New height to be set for the canvas
+     */
+    function setCanvasDimensions(w,h)
+    {
+        canvas.setAttribute('width', w);
+        canvas.setAttribute('height', h);
     }
 
     function canvasMouseDownHandler(event)
@@ -155,31 +161,10 @@ function CanvasPaint() {
     }
 
     /**
-     * Creates the buttons that will be inside the minimized menu
+     * Creates and styles the buttons that will be inside the menu
      */
-    function createMinimizedMenu()
+    function createMenuButtons()
     {
-        //Button to maximize menu
-        var maximizeMenuButton = document.createElement("DIV");
-        maximizeMenuButton.className = "minimizedMenuButton";
-        maximizeMenuButton.innerHTML = "Menu";
-        menu.appendChild(maximizeMenuButton);
-        addEvent(maximizeMenuButton, "mousedown", maximizeMenu);
-    }
-
-    /**
-     * Creates the buttons that will be inside the maximized menu
-     */
-    function createMaximizedMenu()
-    {
-        //Button to minimize menu
-        var minimizeMenuButton = document.createElement("DIV");
-        minimizeMenuButton.className = "maximizedMenuButton";
-        minimizeMenuButton.style.position = "absolute";
-        minimizeMenuButton.innerHTML = "Hide";
-        menu.appendChild(minimizeMenuButton);
-        addEvent(minimizeMenuButton, "mousedown", minimizeMenu);
-
         //Button responsible for setting the color of the brush
         var colorPickerMenuButton = document.createElement("DIV");
         colorPickerMenuButton.className = "maximizedMenuButton";
@@ -204,28 +189,6 @@ function CanvasPaint() {
         brushSizeMenuButton.appendChild(brushSizeButton);
         menu.appendChild(brushSizeMenuButton);
         addEvent(brushSizeButton, "input", setBrushSize);
-    }
-
-    /**
-     * Maximizes menu (showing menu options to the user)
-     * @param {MouseEvent} event - event of type MouseEvent
-     */
-    function maximizeMenu(event)
-    {
-        clearMenuDOM();
-        menu.className = "menu menuMaximized";
-        createMaximizedMenu();
-    }
-
-    /**
-     * Minimizes menu (hiding menu options to the user)
-     * @param {MouseEvent} event - event of type MouseEvent
-     */
-    function minimizeMenu(event)
-    {
-        clearMenuDOM();
-        menu.className = "menu menuMinimized";
-        createMinimizedMenu();
     }
 
     /**

@@ -27,34 +27,27 @@ html, body
     height:100%;
 }
 
+#canvasPaint > canvas {
+    width:92%;
+    height:100%;
+    display:inline-block;
+}
+
 /***************************************************************************/
 /*                      MENU AND ITS INNER BUTTONS
 /***************************************************************************/
 .menu {
-    height:30px;
-    cursor:pointer;
-    font-weight:bold;
-    overflow:hidden;
-    background-color:#1BC3D8;
-    color:#f78f2e;
-
-    -webkit-transition:  width 0.5s;  /* Safari */
-    -moz-transition:     width 0.5s;
-    -o-transition:       width 0.5s;
-    -ms-transition:      width 0.5s;
-    transition:          width 0.5s;
-}
-
-.menuMinimized {
-    width:50px;
-}
-.menuMaximized {
-    width:200px;
-}
-
-.minimizedMenuButton {
-    width:100%;
+    width:8%;
     height:100%;
+    overflow:hidden;
+    background-color:rgb(200,200,200);
+    color:black;
+    display:inline-block;
+}
+
+.menuButton {
+    width:50%;
+    height:10%;
 
     /* Setting how children will be arranged */
     display: -webkit-flex;
@@ -65,28 +58,4 @@ html, body
     /* Vertical alignment */
     -webkit-align-items: center;
     align-items: center;
-}
-.minimizedMenuButton:hover {
-    background-color:#f78f2e;
-    color:#1BC3D8;
-}
-
-.maximizedMenuButton {
-    width:25%;
-    height:100%;
-    cursor:pointer;
-
-  	/* Setting how children will be arranged */
-  	display: -webkit-flex;
-    display: flex;
-  	/* Horizontal alignment */
-  	-webkit-justify-content: center;
-    justify-content: center;
-  	/* Vertical alignment */
-  	-webkit-align-items: center;
-    align-items: center;
-}
-.maximizedMenuButton:hover {
-    background-color:#f78f2e;
-    color:#1BC3D8;
 }
