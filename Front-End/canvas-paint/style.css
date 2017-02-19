@@ -16,15 +16,9 @@ html, body
 #canvasPaint {
     width:100%;
     height:100%;
-    overflow:hidden;
-}
 
-#canvasPaint input {
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
-    width:100%;
-    height:100%;
+    min-width:800px;
+    min-height:600px;
 }
 
 #canvasPaint > canvas {
@@ -37,25 +31,37 @@ html, body
 /*                      MENU AND ITS INNER BUTTONS
 /***************************************************************************/
 .menu {
+    display:inline-block;
+    float:left;
     width:8%;
     height:100%;
-    overflow:hidden;
     background-color:rgb(200,200,200);
     color:black;
-    display:inline-block;
 }
 
 .menuButton {
-    width:50%;
-    height:10%;
+    height:3%;
+    padding:3%;
+    padding-left:10%;
+    padding-right:10%;
+}
 
-    /* Setting how children will be arranged */
-    display: -webkit-flex;
-    display: flex;
-    /* Horizontal alignment */
-    -webkit-justify-content: center;
-    justify-content: center;
-    /* Vertical alignment */
-    -webkit-align-items: center;
-    align-items: center;
+.menuButton div {
+    cursor:pointer;
+    width:100%;
+    height:100%;
+    background-color:red;
+}
+
+.menuButton input {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    cursor:pointer;
+    width:100%;
+    height:100%;
+}
+
+.menuButton input[type="color" i] {
+    padding:0px;
 }

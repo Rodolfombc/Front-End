@@ -23,6 +23,7 @@ function CanvasPaint() {
         menu = document.createElement("DIV");
         menu.className = "menu";
         canvasParent.appendChild(menu);
+        createAllMenuButtons();
 
         //Creating and adding the canvas element to the DOM
         canvas = document.createElement("CANVAS");
@@ -65,30 +66,21 @@ function CanvasPaint() {
             // //Redrawing old canvas drawings to new canvas
             // canvasContext.putImageData(oldImageData,0,0);
         };
-
-        //createMinimizedMenu();
     }
 
     function draw()
     {
+        //Line properties
+        canvasContext.strokeStyle = brushColor;
+        canvasContext.lineJoin = "round";
+        canvasContext.lineWidth = brushLineWidth;
+
+        //Line drawing
         canvasContext.beginPath();
         canvasContext.moveTo(prevMouseX, prevMouseY);
         canvasContext.lineTo(currMouseX, currMouseY);
-        canvasContext.strokeStyle = brushColor;
-        canvasContext.lineWidth = brushLineWidth;
-        canvasContext.stroke();
         canvasContext.closePath();
-    }
-
-    /**
-     * Clears the whole canvas (all paintings)
-     */
-    function clearCanvas()
-    {
-        var m = confirm("Want to clear");
-        if (m) {
-            canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-        }
+        canvasContext.stroke();
     }
 
     /**
@@ -100,6 +92,17 @@ function CanvasPaint() {
         setCanvasDimensions(canvasStyle.getPropertyValue("width"),
                             canvasStyle.getPropertyValue("height"));
         canvasContext = canvas.getContext("2d");
+    }
+
+    /**
+     * Returns current width and height of the canvas
+     */
+    function getCanvasDimensions()
+    {
+        var canvasStyle = window.getComputedStyle(canvas);
+        var dimensions = [canvasStyle.getPropertyValue("width"),
+                          canvasStyle.getPropertyValue("height")];
+        return dimensions;
     }
 
     /**
@@ -123,10 +126,14 @@ function CanvasPaint() {
         isMouseDown = true;
 
         //Drawing the point in case when the user only clicks and doesn't move the mouse
+        canvasContext.strokeStyle = brushColor;
+        canvasContext.lineJoin = "round";
+        canvasContext.lineWidth = brushLineWidth;
         canvasContext.beginPath();
-        canvasContext.fillStyle = brushColor;
-        canvasContext.fillRect(currMouseX, currMouseY, brushLineWidth, brushLineWidth);
+        canvasContext.moveTo(currMouseX-0.1, currMouseY-0.1);
+        canvasContext.lineTo(currMouseX, currMouseY);
         canvasContext.closePath();
+        canvasContext.stroke();
     }
 
     function canvasMouseMoveHandler(event)
@@ -149,46 +156,70 @@ function CanvasPaint() {
     //***************************************************************************//
     //                          MENU RELATED FUNCTIONS
     //***************************************************************************//
-
-    /**
-     * Removes all menu children DOM elements
-     */
-    function clearMenuDOM()
-    {
-        while(menu.firstChild) {
-            menu.removeChild(menu.firstChild);
-        }
-    }
-
     /**
      * Creates and styles the buttons that will be inside the menu
      */
-    function createMenuButtons()
+    function createAllMenuButtons()
     {
         //Button responsible for setting the color of the brush
-        var colorPickerMenuButton = document.createElement("DIV");
-        colorPickerMenuButton.className = "maximizedMenuButton";
-        colorPickerMenuButton.style.position = "absolute";
-        colorPickerMenuButton.style.left = "25%";
-        var colorPickerButton = document.createElement("INPUT");
-        colorPickerButton.setAttribute("type", "color");
-        colorPickerMenuButton.appendChild(colorPickerButton);
-        menu.appendChild(colorPickerMenuButton);
-        addEvent(colorPickerButton, "input", setBrushColor);
+        createMenuButton("Choose brush color", setBrushColor, "color");
+
+        //Button responsible for clearing the whole canvas
+        createMenuButton("Clear canvas", clearCanvas);
 
         //Button responsible for setting the size of the brush
-        var brushSizeMenuButton = document.createElement("DIV");
-        brushSizeMenuButton.className = "maximizedMenuButton";
-        brushSizeMenuButton.style.position = "absolute";
-        brushSizeMenuButton.style.left = "50%";
-        var brushSizeButton = document.createElement("INPUT");
-        brushSizeButton.setAttribute("type", "number");
-        brushSizeButton.setAttribute("min", "1");
-        brushSizeButton.setAttribute("max", "20");
-        brushSizeButton.setAttribute("value", brushLineWidth);
-        brushSizeMenuButton.appendChild(brushSizeButton);
-        menu.appendChild(brushSizeMenuButton);
-        addEvent(brushSizeButton, "input", setBrushSize);
+        createMenuButton("Set brush size", setBrushSize, "number");
+    }
+
+    /**
+     * Creates a button for the canvas menu
+     */
+    function createMenuButton(tooltip, fn, hasInput)
+    {
+        //Button element
+        var button = document.createElement("DIV");
+        button.className = "menuButton";
+        button.title = tooltip;
+
+        if(hasInput)
+        {
+            var input = document.createElement("INPUT");
+
+            if(hasInput==="color")
+            {
+              input.setAttribute("type", "color");
+            }
+            else if(hasInput==="number")
+            {
+              input.setAttribute("type", "number");
+              input.setAttribute("min", "1");
+              input.setAttribute("max", "99");
+              input.setAttribute("value", brushLineWidth);
+            }
+
+            button.appendChild(input);
+            addEvent(input, "input", fn);
+        }
+        else
+        {
+            var buttonAction = document.createElement("DIV");
+            button.appendChild(buttonAction);
+            addEvent(buttonAction, "mousedown", fn);
+        }
+
+        menu.appendChild(button);
+    }
+
+    /**
+     * Clears the whole canvas (all paintings)
+     */
+    function clearCanvas()
+    {
+        var m = confirm("Want to clear canvas?");
+        if (m) {
+            var dimensions = getCanvasDimensions();
+            canvasContext.clearRect(0, 0, parseFloat(dimensions[0]), parseFloat(dimensions[1]));
+        }
     }
 
     /**
@@ -218,8 +249,6 @@ function CanvasPaint() {
     //            DEFINING FUNCTIONS THAT CAN BE ACCESSED FROM OUTSIDE
     //***************************************************************************//
     paintObj.init = init;
-    paintObj.setBrushColor = setBrushColor;
-    paintObj.clearCanvas = clearCanvas;
 
     return paintObj;
 }
