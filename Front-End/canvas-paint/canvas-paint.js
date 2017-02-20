@@ -1,7 +1,8 @@
 function CanvasPaint() {
     var paintObj = new Object();
 
-    var canvas = null,
+    var canvasParent = null,
+        canvas = null,
         canvasContext = null,
         isMouseDown = false,
         prevMouseX = 0,
@@ -17,7 +18,7 @@ function CanvasPaint() {
     function init()
     {
         //Element which will hold the canvas and its menu
-        var canvasParent = document.getElementById('canvasPaint');
+        canvasParent = document.getElementById('canvasPaint');
 
         //Menu element
         menu = document.createElement("DIV");
@@ -210,16 +211,71 @@ function CanvasPaint() {
         menu.appendChild(button);
     }
 
+    function createModal(titleText, bodyText, customFn)
+    {
+        var modalElem = document.getElementById("customModal");
+        if(modalElem) modalElem.style.display = "block";
+        else
+        {
+            //Parent div that will hold the modal
+            var modal = document.createElement("DIV");
+            modal.id="customModal"
+
+            //Modal content (holds modal header and body)
+            var modalContent = document.createElement("DIV");
+            modalContent.className = "modal-content";
+
+            //Modal header and its text
+            var modalHeader = document.createElement("DIV");
+            modalHeader.className = "modal-header";
+            var headerText = document.createElement("H2");
+            headerText.innerHTML = titleText;
+            modalHeader.appendChild(headerText);
+
+            //Modal body and its text and buttons
+            var modalBody = document.createElement("DIV");
+            modalBody.className = "modal-body";
+            modalBody.innerHTML = bodyText;
+            var yesButton = document.createElement("BUTTON");
+            yesButton.innerHTML = "Yes";
+            var noButton = document.createElement("BUTTON");
+            noButton.innerHTML = "No";
+            //Adding the buttons to the modal body
+            modalBody.appendChild(yesButton);
+            modalBody.appendChild(noButton);
+
+            //Buttons functionalities
+            addEvent(yesButton, "mousedown", customFn);
+            addEvent(yesButton, "mousedown", function() {
+                modal.style.display = "none";
+            });
+            addEvent(noButton, "mousedown", function() {
+                modal.style.display = "none";
+            });
+
+            //Connecting the modal parts
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(modalBody);
+            modal.appendChild(modalContent);
+
+            //Adding the complete modal to the highest dom element
+            canvasParent.appendChild(modal);
+
+            //Showing the modal
+            modal.style.display = "block";
+        }
+    }
+
     /**
      * Clears the whole canvas (all paintings)
      */
     function clearCanvas()
     {
-        var m = confirm("Want to clear canvas?");
-        if (m) {
+        var func = function() {
             var dimensions = getCanvasDimensions();
             canvasContext.clearRect(0, 0, parseFloat(dimensions[0]), parseFloat(dimensions[1]));
         }
+        createModal("Clear Canvas", "Do you want to clear the canvas?", func);
     }
 
     /**
