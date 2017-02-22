@@ -294,6 +294,22 @@ function CanvasPaint() {
         brushLineWidth = this.value;
     }
 
+    /**
+     * Defines the paint mode as a brush mode
+     */
+    function setBrushMode()
+    {
+        canvasContext.globalCompositeOperation = "source-over";
+    }
+
+    /**
+     * Defines the paint mode as an eraser mode
+     */
+    function setEraserMode()
+    {
+        canvasContext.globalCompositeOperation = "destination-out";
+    }
+
 
     function addEvent(elem,event,func)
     {
