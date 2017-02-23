@@ -33,37 +33,40 @@ html, body
 .menu {
     display:inline-block;
     float:left;
-    width:8%;
+    width:38px;
     height:100%;
     background-color:rgb(200,200,200);
     color:black;
+    overflow-y:auto;
 }
 
 .menuButton {
-    height:3%;
-    padding:3%;
-    padding-left:10%;
-    padding-right:10%;
+    width:32px;
+    height:32px;
+    padding:3px;
 }
 
-.menuButton div {
+.menuButton p {
+    cursor:pointer;
+    height:100%;
+    margin:0px;
+    font-size:14px;
+    line-height:28px;
+    text-align:center;
+}
+
+.menuButton img {
     cursor:pointer;
     width:100%;
     height:100%;
-    background-color:red;
 }
 
-.menuButton input {
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
-    cursor:pointer;
-    width:100%;
-    height:100%;
-}
-
-.menuButton input[type="color" i] {
-    padding:0px;
+.menuButton p:hover, .menuButton p:focus,
+.menuButton img:hover, .menuButton img:focus
+ {
+    width:30px;
+    height:30px;
+    border: 1px solid black;
 }
 
 /***************************************************************************/

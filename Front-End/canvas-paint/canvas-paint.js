@@ -19,6 +19,7 @@ function CanvasPaint() {
     {
         //Element which will hold the canvas and its menu
         canvasParent = document.getElementById('canvasPaint');
+        console.log(canvasParent.clientWidth);
 
         //Menu element
         menu = document.createElement("DIV");
@@ -162,52 +163,46 @@ function CanvasPaint() {
      */
     function createAllMenuButtons()
     {
-        //Button responsible for setting the color of the brush
-        createMenuButton("Choose brush color", setBrushColor, "color");
+        //Button responsible for setting the brush mode
+        createMenuButton("Brush tool", "brush", setBrushMode);
+
+        //Button responsible for setting the eraser mode
+        createMenuButton("Eraser tool", "eraser", setEraserMode);
 
         //Button responsible for clearing the whole canvas
-        createMenuButton("Clear canvas", clearCanvas);
+        createMenuButton("Clear canvas", "clear", clearCanvas);
+
+        //Button responsible for setting the color of the brush
+        createMenuButton("Choose brush color", "color", setBrushColor);
 
         //Button responsible for setting the size of the brush
-        createMenuButton("Set brush size", setBrushSize, "number");
+        createMenuButton("Brush size", "size", setBrushSize);
     }
 
     /**
      * Creates a button for the canvas menu
      */
-    function createMenuButton(tooltip, fn, hasInput)
+    function createMenuButton(tooltip, role, fn)
     {
         //Button element
         var button = document.createElement("DIV");
         button.className = "menuButton";
         button.title = tooltip;
 
-        if(hasInput)
+        if(role==="size")
         {
-            var input = document.createElement("INPUT");
-
-            if(hasInput==="color")
-            {
-              input.setAttribute("type", "color");
-            }
-            else if(hasInput==="number")
-            {
-              input.setAttribute("type", "number");
-              input.setAttribute("min", "1");
-              input.setAttribute("max", "99");
-              input.setAttribute("value", brushLineWidth);
-            }
-
-            button.appendChild(input);
-            addEvent(input, "input", fn);
+            button.innerHTML = "<p>"+brushLineWidth+"px</p>";
         }
         else
         {
-            var buttonAction = document.createElement("DIV");
-            button.appendChild(buttonAction);
-            addEvent(buttonAction, "mousedown", fn);
+            var imgSrc = 'img/'+role+'-icon.png';
+            button.innerHTML = "<img src="+imgSrc+" alt='The Image' />";
         }
 
+        //Adding a particular behavior when the button is clicked
+        addEvent(button.firstChild, "mousedown", fn);
+
+        //Appending the button element to the menu
         menu.appendChild(button);
     }
 
@@ -258,7 +253,7 @@ function CanvasPaint() {
             modalContent.appendChild(modalBody);
             modal.appendChild(modalContent);
 
-            //Adding the complete modal to the highest dom element
+            //Adding the complete modal to the canvas parent dom element
             canvasParent.appendChild(modal);
 
             //Showing the modal
@@ -291,7 +286,71 @@ function CanvasPaint() {
      */
     function setBrushSize()
     {
-        brushLineWidth = this.value;
+        //Reference for the button that calls this function
+        var menuButton = this;
+
+        console.log(this.innerHTML);
+
+        //Checking if the sliderElem already exists on DOM
+        var sliderElem = document.getElementById("brushSizeSlider");
+        if(sliderElem)
+        {
+            sliderElem.style.display = "block";
+        }
+        else
+        {
+            //Left = Menu's left position + menu's width
+            var sliderDivLeft = this.parentNode.parentNode.offsetLeft + parseInt(window.getComputedStyle(this.parentNode.parentNode).width);
+            //Top = Menu button's top + 1/4 height of menu button's height
+            var sliderDivTop = this.parentNode.offsetTop+8;
+
+            //Creating the div that will contain the slider
+            var sizeSlider = document.createElement("DIV");
+            sizeSlider.id = "brushSizeSlider";
+            sizeSlider.style.width = "100px";
+            sizeSlider.style.height = "20px";
+            sizeSlider.style.backgroundColor = window.getComputedStyle(this.parentNode.parentNode).backgroundColor;
+            sizeSlider.style.position = "absolute";
+            sizeSlider.style.left = sliderDivLeft+"px";
+            sizeSlider.style.top = sliderDivTop+"px";
+            sizeSlider.style.borderRadius = "10px";
+
+            var mouseDown = false;
+            addEvent(sizeSlider, "mousedown", function(evt) {
+                mouseDown = true;
+
+                //sliderValue = mouse X position - sliderDiv left position
+                var sliderValue = evt.clientX - parseInt(sizeSlider.style.left);
+
+                //Updating the brush size and the menu button's text
+                brushLineWidth = sliderValue;
+                menuButton.innerHTML = brushLineWidth+"px";
+            });
+
+            addEvent(sizeSlider, "mouseup", function(evt) {
+                mouseDown = false;
+            });
+
+            addEvent(sizeSlider, "mouseout", function(evt) {
+                mouseDown = false;
+                sizeSlider.style.display = "none";
+            });
+
+            addEvent(sizeSlider, "mousemove", function(evt) {
+                if(mouseDown)
+                {
+                    //sliderValue = mouse X position - sliderDiv left position
+                    var sliderValue = evt.clientX - parseInt(sizeSlider.style.left);
+
+                    //Updating the brush size and the menu button's text
+                    brushLineWidth = sliderValue;
+                    menuButton.innerHTML = brushLineWidth+"px";
+                }
+            });
+
+            //Adding the slider div to the DOM
+            this.parentNode.appendChild(sizeSlider);
+        }
     }
 
     /**
