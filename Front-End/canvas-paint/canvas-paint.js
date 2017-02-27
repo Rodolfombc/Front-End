@@ -333,7 +333,7 @@ function CanvasPaint() {
 
             addEvent(sizeSlider, "mouseout", function(evt) {
                 mouseDown = false;
-                sizeSlider.style.display = "none";
+                //sizeSlider.style.display = "none";
             });
 
             addEvent(sizeSlider, "mousemove", function(evt) {
