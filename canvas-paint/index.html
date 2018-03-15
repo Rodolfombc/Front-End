@@ -2,16 +2,44 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <!-- ==================================================================================== -->
-                                <!--  Loading css files  -->
-        <!-- ==================================================================================== -->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="style.css" rel="stylesheet" type="text/css">
 
         <title>Canvas Paint</title>
     </head>
     <body>
-        <div id="canvasPaint"></div>
+        <div class="container-fluid fullHeightContainer">
+            <div class="row fullHeightRow">
+                <div id="canvasMenu" class="col-auto menuPadding" style="background-color:red;">
+                    <div id="brushToolButton" class="menuButton" title="Brush tool">
+                        <img src="img/brush-icon.png" alt="Brush icon">
+                    </div>
+                    <div id="eraserToolButton" class="menuButton" title="Eraser tool">
+                        <img src="img/eraser-icon.png" alt="Eraser icon">
+                    </div>
+                    <div id="clearToolButton" class="menuButton" title="Clear canvas">
+                        <img src="img/clear-icon.png" alt="Clear icon">
+                    </div>
+                    <input type="color" id="colorPicker" class="colorPickerButton" value="#000000">
+
+                    <div id="brushSizeButton" class="menuButton" title="Brush size">
+                        <p>2px</p>
+                        <input type="range" min="1" max="99" value="2" class="slider brushSizeSlider" id="myRange" style="display:none;">
+                    </div>
+                </div>
+                <canvas id="canvasPaint" class="col noPadding"></canvas>
+            </div>
+        </div>
+        <!-- <div id="canvasPaint"></div> -->
     </body>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="canvas-paint.js"></script>
 </html>

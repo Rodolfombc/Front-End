@@ -1,8 +1,9 @@
-html, body
+body
 {
-  	margin:0;
-  	height:100%;
-    overflow:auto;
+  	margin: 0;
+  	height: 100%;
+    width: 100%;
+    position: absolute;
 
     /* Cross Platform solution to remove user select highlight */
     -webkit-touch-callout: none;
@@ -13,45 +14,53 @@ html, body
     user-select: none;
 }
 
-#canvasPaint {
-    width:100%;
-    height:100%;
-
-    min-width:800px;
-    min-height:600px;
+.noPadding {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-#canvasPaint > canvas {
-    width:92%;
-    height:100%;
-    display:inline-block;
+.menuPadding {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.fullHeightContainer {
+    height: inherit;
+}
+.fullHeightRow {
+    height: 100%;
 }
 
 /***************************************************************************/
 /*                      MENU AND ITS INNER BUTTONS
 /***************************************************************************/
-.menu {
-    display:inline-block;
-    float:left;
-    width:38px;
-    height:100%;
-    background-color:rgb(200,200,200);
-    color:black;
-    overflow-y:auto;
+.menuButton {
+    width: 32px;
+    height: 32px;
+    padding: 2px;
+    margin-bottom: 2px;
 }
 
-.menuButton {
-    width:32px;
-    height:32px;
-    padding:3px;
+.colorPickerButton {
+    width: 28px;
+    height: 28px;
+    margin-left: 1px;
+    margin-top: 1px;
+}
+
+.brushSizeSlider {
+    position: relative;
+    top: -22px;
+    left: 40px;
+    z-index: 10;
 }
 
 .menuButton p {
     cursor:pointer;
     height:100%;
     margin:0px;
-    font-size:14px;
-    line-height:28px;
+    font-size:12px;
+    line-height:24px;
     text-align:center;
 }
 
@@ -64,8 +73,6 @@ html, body
 .menuButton p:hover, .menuButton p:focus,
 .menuButton img:hover, .menuButton img:focus
  {
-    width:30px;
-    height:30px;
     border: 1px solid black;
 }
 
