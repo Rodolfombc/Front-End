@@ -5,6 +5,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="style.css" rel="stylesheet" type="text/css">
 
         <title>Canvas Paint</title>
@@ -12,16 +13,11 @@
     <body>
         <div class="container-fluid fullHeightContainer">
             <div class="row fullHeightRow">
-                <div id="canvasMenu" class="col-auto menuPadding" style="background-color:red;">
-                    <div id="brushToolButton" class="menuButton" title="Brush tool">
-                        <img src="img/brush-icon.png" alt="Brush icon">
-                    </div>
-                    <div id="eraserToolButton" class="menuButton" title="Eraser tool">
-                        <img src="img/eraser-icon.png" alt="Eraser icon">
-                    </div>
-                    <div id="clearToolButton" class="menuButton" title="Clear canvas">
-                        <img src="img/clear-icon.png" alt="Clear icon">
-                    </div>
+                <div id="canvasMenu" class="col-auto" style="background-color:#c6c6c6;">
+                    <span id="brushToolButton" class="fa fa-pencil"></span>
+                    <span id="eraserToolButton" class="fa fa-eraser"></span>
+                    <span id="clearToolButton" class="fa fa-trash"></span>
+
                     <input type="color" id="colorPicker" class="colorPickerButton" value="#000000">
 
                     <div id="brushSizeButton" class="menuButton" title="Brush size">
