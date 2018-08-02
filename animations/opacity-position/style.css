@@ -1,0 +1,100 @@
+body
+{
+  	margin: 0;
+  	height: 100%;
+    width: 100%;
+    position: absolute;
+
+    /* Cross Platform solution to remove user select highlight */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.fullHeightContainer {
+    height: inherit;
+}
+.halfHeightRow {
+    height: 50%;
+}
+.fullHeightRow {
+    height: 100%;
+}
+
+.image-description {
+    -webkit-animation: fadeIn 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeIn 1s; /* Firefox < 16 */
+        -ms-animation: fadeIn 1s; /* Internet Explorer */
+         -o-animation: fadeIn 1s; /* Opera < 12.1 */
+            animation: fadeIn 1s;
+}
+
+.left-image {
+    -webkit-animation: fadeIn 1s, slideRight 0.5s ease; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeIn 1s, slideRight 0.5s ease; /* Firefox < 16 */
+        -ms-animation: fadeIn 1s, slideRight 0.5s ease; /* Internet Explorer */
+         -o-animation: fadeIn 1s, slideRight 0.5s ease; /* Opera < 12.1 */
+            animation: fadeIn 1s, slideRight 0.5s ease;
+}
+
+.right-image {
+    -webkit-animation: fadeIn 1s, slideLeft 0.5s ease; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeIn 1s, slideLeft 0.5s ease; /* Firefox < 16 */
+        -ms-animation: fadeIn 1s, slideLeft 0.5s ease; /* Internet Explorer */
+         -o-animation: fadeIn 1s, slideLeft 0.5s ease; /* Opera < 12.1 */
+            animation: fadeIn 1s, slideLeft 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; }
+    to   { opacity:1; }
+}
+@-moz-keyframes fadeIn { /* Firefox */
+    from { opacity:0; }
+    to   { opacity:1; }
+}
+@-webkit-keyframes fadeIn { /* Safari and Chrome */
+    from { opacity:0; }
+    to   { opacity:1; }
+}
+@-o-keyframes fadeIn { /* Opera */
+    from { opacity:0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideRight {
+    from { transform: translate(-30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-moz-keyframes slideRight { /* Firefox */
+    from { transform: translate(-30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-webkit-keyframes slideRight { /* Safari and Chrome */
+    from { transform: translate(-30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-o-keyframes slideRight { /* Opera */
+    from { transform: translate(-30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+
+@keyframes slideLeft {
+    from { transform: translate(30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-moz-keyframes slideLeft { /* Firefox */
+    from { transform: translate(30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-webkit-keyframes slideLeft { /* Safari and Chrome */
+    from { transform: translate(30px, 0); }
+    to   { transform: translate(0, 0); }
+}
+@-o-keyframes slideLeft { /* Opera */
+    from { transform: translate(30px, 0); }
+    to   { transform: translate(0, 0); }
+}
